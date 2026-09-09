@@ -1,1 +1,132 @@
-{}
+{
+  "HDFCBANK": {
+    "peRatio": 18.69,
+    "latestEarnings": 91.02,
+    "source": "assignment-pdf"
+  },
+  "BAJFINANCE": {
+    "peRatio": 32.63,
+    "latestEarnings": 257.8,
+    "source": "assignment-pdf"
+  },
+  "ICICIBANK": {
+    "peRatio": 17.68,
+    "latestEarnings": 68.72,
+    "source": "assignment-pdf"
+  },
+  "532174": {
+    "peRatio": 85.72,
+    "latestEarnings": 2.53,
+    "source": "assignment-pdf"
+  },
+  "511577": {
+    "peRatio": null,
+    "latestEarnings": null,
+    "source": "assignment-pdf"
+  },
+  "AFFLE": {
+    "peRatio": 55.53,
+    "latestEarnings": 26.11,
+    "source": "assignment-pdf"
+  },
+  "LTIM": {
+    "peRatio": 34.69,
+    "latestEarnings": 145.92,
+    "source": "assignment-pdf"
+  },
+  "542651": {
+    "peRatio": 46.57,
+    "latestEarnings": 27.77,
+    "source": "assignment-pdf"
+  },
+  "544028": {
+    "peRatio": 41.68,
+    "latestEarnings": 15.88,
+    "source": "assignment-pdf"
+  },
+  "544107": {
+    "peRatio": 26.3,
+    "latestEarnings": 5.8,
+    "source": "assignment-pdf"
+  },
+  "532790": {
+    "peRatio": 11.64,
+    "latestEarnings": 39.48,
+    "source": "assignment-pdf"
+  },
+  "DMART": {
+    "peRatio": 82.63,
+    "latestEarnings": 41.75,
+    "source": "assignment-pdf"
+  },
+  "532540": {
+    "peRatio": 26.56,
+    "latestEarnings": 134.77,
+    "source": "assignment-pdf"
+  },
+  "500331": {
+    "peRatio": 71.13,
+    "latestEarnings": 38.36,
+    "source": "assignment-pdf"
+  },
+  "500400": {
+    "peRatio": 29.36,
+    "latestEarnings": 11.94,
+    "source": "assignment-pdf"
+  },
+  "542323": {
+    "peRatio": 29.26,
+    "latestEarnings": 13.75,
+    "source": "assignment-pdf"
+  },
+  "532667": {
+    "peRatio": 61.25,
+    "latestEarnings": 0.84,
+    "source": "assignment-pdf"
+  },
+  "542851": {
+    "peRatio": 39.51,
+    "latestEarnings": 5.57,
+    "source": "assignment-pdf"
+  },
+  "543517": {
+    "peRatio": 17.98,
+    "latestEarnings": 19.78,
+    "source": "assignment-pdf"
+  },
+  "ASTRAL": {
+    "peRatio": 67.13,
+    "latestEarnings": 19.59,
+    "source": "assignment-pdf"
+  },
+  "542652": {
+    "peRatio": 40.91,
+    "latestEarnings": 121.97,
+    "source": "assignment-pdf"
+  },
+  "543318": {
+    "peRatio": 50.37,
+    "latestEarnings": 24.52,
+    "source": "assignment-pdf"
+  },
+  "506401": {
+    "peRatio": 41.86,
+    "latestEarnings": 37.26,
+    "source": "assignment-pdf"
+  },
+  "541557": {
+    "peRatio": 41.86,
+    "latestEarnings": 37.26,
+    "source": "assignment-pdf"
+  },
+  "533282": {
+    "peRatio": null,
+    "latestEarnings": -5.82,
+    "source": "assignment-pdf"
+  },
+  "540719": {
+    "peRatio": 25.86,
+    "latestEarnings": 66.63,
+    "source": "assignment-pdf"
+  }
+}

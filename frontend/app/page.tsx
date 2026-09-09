@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo, useState } from "react";
 import DashboardHeader from "../components/Header/DashboardHeader";
 import PortfolioTable from "../components/PortfolioTable";
 import ErrorBanner from "../components/UI/ErrorBanner";
@@ -8,6 +9,8 @@ import RefreshTimer from "../components/UI/RefreshTimer";
 import { usePortfolioData } from "../hooks/usePortfolioData";
 
 export default function Home() {
+  const [searchTerm, setSearchTerm] = useState("");
+
   const {
     portfolio,
     meta,
@@ -16,6 +19,39 @@ export default function Home() {
     countdown,
     refetch
   } = usePortfolioData();
+
+  const filteredSectors = useMemo(() => {
+    if (!portfolio) {
+      return [];
+    }
+
+    const term = searchTerm.trim().toLowerCase();
+
+    if (!term) {
+      return portfolio.sectors;
+    }
+
+    return portfolio.sectors
+      .map((sector) => {
+        const sectorMatches = sector.sector.toLowerCase().includes(term);
+
+        const filteredStocks = sectorMatches
+          ? sector.stocks
+          : sector.stocks.filter((stock) => {
+              return (
+                stock.name.toLowerCase().includes(term) ||
+                stock.sourceNseBseCode.toLowerCase().includes(term) ||
+                stock.exchange.toLowerCase().includes(term)
+              );
+            });
+
+        return {
+          ...sector,
+          stocks: filteredStocks
+        };
+      })
+      .filter((sector) => sector.stocks.length > 0);
+  }, [portfolio, searchTerm]);
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -41,7 +77,35 @@ export default function Home() {
               onManualRefresh={refetch}
             />
 
-            <PortfolioTable sectors={portfolio.sectors} />
+            <div className="mb-4 rounded-xl border border-slate-800 bg-slate-900 p-4">
+              <label className="mb-2 block text-sm font-medium text-slate-300">
+                Search stocks
+              </label>
+
+              <input
+                value={searchTerm}
+                onChange={(event) => setSearchTerm(event.target.value)}
+                placeholder="Search by stock name, NSE/BSE code, or exchange..."
+                className="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none placeholder:text-slate-500 focus:border-blue-500"
+              />
+
+              {searchTerm.trim() && (
+                <p className="mt-2 text-sm text-slate-400">
+                  Showing results for{" "}
+                  <span className="font-medium text-slate-200">
+                    "{searchTerm}"
+                  </span>
+                </p>
+              )}
+            </div>
+
+            {filteredSectors.length > 0 ? (
+              <PortfolioTable sectors={filteredSectors} />
+            ) : (
+              <div className="rounded-xl border border-slate-800 bg-slate-900 p-8 text-center text-slate-300">
+                No stocks found for "{searchTerm}".
+              </div>
+            )}
 
             <section className="mt-6 rounded-xl border border-slate-800 bg-slate-900 p-4 text-sm text-slate-400">
               <p>

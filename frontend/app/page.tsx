@@ -7,6 +7,7 @@ import ErrorBanner from "../components/UI/ErrorBanner";
 import LoadingSpinner from "../components/UI/LoadingSpinner";
 import RefreshTimer from "../components/UI/RefreshTimer";
 import { usePortfolioData } from "../hooks/usePortfolioData";
+import { exportPortfolioToCsv } from "../utils/exportCsv";
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -78,25 +79,37 @@ export default function Home() {
             />
 
             <div className="mb-4 rounded-xl border border-slate-800 bg-slate-900 p-4">
-              <label className="mb-2 block text-sm font-medium text-slate-300">
-                Search stocks
-              </label>
+              <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                <div className="flex-1">
+                  <label className="mb-2 block text-sm font-medium text-slate-300">
+                    Search stocks
+                  </label>
 
-              <input
-                value={searchTerm}
-                onChange={(event) => setSearchTerm(event.target.value)}
-                placeholder="Search by stock name, NSE/BSE code, or exchange..."
-                className="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none placeholder:text-slate-500 focus:border-blue-500"
-              />
+                  <input
+                    value={searchTerm}
+                    onChange={(event) => setSearchTerm(event.target.value)}
+                    placeholder="Search by stock name, NSE/BSE code, or exchange..."
+                    className="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 text-white outline-none placeholder:text-slate-500 focus:border-blue-500"
+                  />
 
-              {searchTerm.trim() && (
-                <p className="mt-2 text-sm text-slate-400">
-                  Showing results for{" "}
-                  <span className="font-medium text-slate-200">
-                    "{searchTerm}"
-                  </span>
-                </p>
-              )}
+                  {searchTerm.trim() && (
+                    <p className="mt-2 text-sm text-slate-400">
+                      Showing results for{" "}
+                      <span className="font-medium text-slate-200">
+                        "{searchTerm}"
+                      </span>
+                    </p>
+                  )}
+                </div>
+
+                <button
+                  onClick={() => exportPortfolioToCsv(filteredSectors)}
+                  disabled={filteredSectors.length === 0}
+                  className="rounded-lg bg-emerald-600 px-4 py-3 text-sm font-semibold text-white hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-slate-700 disabled:text-slate-400"
+                >
+                  Export CSV
+                </button>
+              </div>
             </div>
 
             {filteredSectors.length > 0 ? (
@@ -114,23 +127,32 @@ export default function Home() {
                   {meta?.priceSource ?? "Unavailable"}
                 </span>
               </p>
+
               <p>
                 Fundamentals source:{" "}
                 <span className="text-slate-200">
                   {meta?.fundamentalsSource ?? "Unavailable"}
                 </span>
               </p>
+
               <p>
                 Active holdings:{" "}
                 <span className="text-slate-200">
                   {meta?.activeHoldingsCount ?? 0}
                 </span>
               </p>
+
               <p>
                 Excluded rows:{" "}
                 <span className="text-slate-200">
                   {meta?.excludedRowsCount ?? 0}
                 </span>
+              </p>
+
+              <p className="mt-3 text-xs text-slate-500">
+                Disclaimer: CMP is fetched from Yahoo Finance unofficial
+                endpoints. Fundamentals use a Google Finance strategy with
+                assignment-data fallback. Values may be delayed or unavailable.
               </p>
             </section>
           </>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import SectorPieChart from "../components/Charts/SectorPieChart";
 import DashboardHeader from "../components/Header/DashboardHeader";
 import PortfolioTable from "../components/PortfolioTable";
 import ErrorBanner from "../components/UI/ErrorBanner";
@@ -77,6 +78,8 @@ export default function Home() {
               lastUpdated={meta?.lastUpdated ?? null}
               onManualRefresh={refetch}
             />
+
+            <SectorPieChart sectors={portfolio.sectors} />
 
             <div className="mb-4 rounded-xl border border-slate-800 bg-slate-900 p-4">
               <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">

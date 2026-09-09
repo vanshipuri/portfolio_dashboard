@@ -53,5 +53,3 @@ export default function PortfolioTable({ sectors }: PortfolioTableProps) {
     </div>
   );
 }
-
-import React from "react";

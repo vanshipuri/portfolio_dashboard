@@ -14,7 +14,7 @@
     "latestEarnings": 68.72,
     "source": "assignment-pdf"
   },
-  "532174": {
+  "BAJAJHFL": {
     "peRatio": 85.72,
     "latestEarnings": 2.53,
     "source": "assignment-pdf"
@@ -34,22 +34,22 @@
     "latestEarnings": 145.92,
     "source": "assignment-pdf"
   },
-  "542651": {
+  "KPITTECH": {
     "peRatio": 46.57,
     "latestEarnings": 27.77,
     "source": "assignment-pdf"
   },
-  "544028": {
+  "TATATECH": {
     "peRatio": 41.68,
     "latestEarnings": 15.88,
     "source": "assignment-pdf"
   },
-  "544107": {
+  "BLSE": {
     "peRatio": 26.3,
     "latestEarnings": 5.8,
     "source": "assignment-pdf"
   },
-  "532790": {
+  "TANLA": {
     "peRatio": 11.64,
     "latestEarnings": 39.48,
     "source": "assignment-pdf"
@@ -59,37 +59,38 @@
     "latestEarnings": 41.75,
     "source": "assignment-pdf"
   },
-  "532540": {
+  "TATACONSUM": {
     "peRatio": 26.56,
     "latestEarnings": 134.77,
-    "source": "assignment-pdf"
+    "source": "assignment-pdf",
+    "note": "Source PDF row shows Tata Consumer name but extracted exchange code appears as 532540. Verify against original sheet if required."
   },
-  "500331": {
+  "PIDILITIND": {
     "peRatio": 71.13,
     "latestEarnings": 38.36,
     "source": "assignment-pdf"
   },
-  "500400": {
+  "TATAPOWER": {
     "peRatio": 29.36,
     "latestEarnings": 11.94,
     "source": "assignment-pdf"
   },
-  "542323": {
+  "KPIGREEN": {
     "peRatio": 29.26,
     "latestEarnings": 13.75,
     "source": "assignment-pdf"
   },
-  "532667": {
+  "SUZLON": {
     "peRatio": 61.25,
     "latestEarnings": 0.84,
     "source": "assignment-pdf"
   },
-  "542851": {
+  "GENSOL": {
     "peRatio": 39.51,
     "latestEarnings": 5.57,
     "source": "assignment-pdf"
   },
-  "543517": {
+  "HARIOMPIPE": {
     "peRatio": 17.98,
     "latestEarnings": 19.78,
     "source": "assignment-pdf"
@@ -99,34 +100,52 @@
     "latestEarnings": 19.59,
     "source": "assignment-pdf"
   },
-  "542652": {
+  "POLYCAB": {
     "peRatio": 40.91,
     "latestEarnings": 121.97,
     "source": "assignment-pdf"
   },
-  "543318": {
+  "CLEAN": {
     "peRatio": 50.37,
     "latestEarnings": 24.52,
     "source": "assignment-pdf"
   },
-  "506401": {
+  "DEEPAKNTR": {
     "peRatio": 41.86,
     "latestEarnings": 37.26,
     "source": "assignment-pdf"
   },
-  "541557": {
+  "FINEORG": {
     "peRatio": 41.86,
     "latestEarnings": 37.26,
     "source": "assignment-pdf"
   },
-  "533282": {
+  "GRAVITA": {
+    "peRatio": 41.86,
+    "latestEarnings": 37.26,
+    "source": "assignment-pdf"
+  },
+  "SBILIFE": {
     "peRatio": null,
     "latestEarnings": -5.82,
     "source": "assignment-pdf"
   },
-  "540719": {
+  "INFY": {
     "peRatio": 25.86,
     "latestEarnings": 66.63,
-    "source": "assignment-pdf"
+    "source": "assignment-pdf",
+    "note": "Excluded/watchlist row, not included in active portfolio."
+  },
+  "HAPPSTMNDS": {
+    "peRatio": 47.41,
+    "latestEarnings": 14.8,
+    "source": "assignment-pdf",
+    "note": "Excluded/watchlist row, not included in active portfolio."
+  },
+  "EASEMYTRIP": {
+    "peRatio": 41.86,
+    "latestEarnings": 37.26,
+    "source": "assignment-pdf",
+    "note": "Excluded/watchlist row, not included in active portfolio."
   }
 }

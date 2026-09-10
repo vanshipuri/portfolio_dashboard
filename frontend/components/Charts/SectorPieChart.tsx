@@ -6,8 +6,9 @@ import {
   Pie,
   PieChart,
   ResponsiveContainer,
-  Tooltip
+  Tooltip,
 } from "recharts";
+
 import type { Sector } from "../../types/portfolio.types";
 import { formatCurrency } from "../../utils/formatters";
 
@@ -21,20 +22,24 @@ const COLORS = [
   "#f97316",
   "#a855f7",
   "#eab308",
-  "#ef4444"
+  "#ef4444",
 ];
 
-export default function SectorPieChart({ sectors }: SectorPieChartProps) {
+export default function SectorPieChart({
+  sectors,
+}: SectorPieChartProps) {
   const data = sectors.map((sector) => ({
     name: sector.sector,
     value: sector.sectorInvestment,
-    percentage: sector.sectorPortfolioPercentage
   }));
 
   return (
     <div className="mb-6 rounded-xl border border-slate-800 bg-slate-900 p-4">
       <div className="mb-4">
-        <h2 className="text-lg font-bold text-white">Sector Allocation</h2>
+        <h2 className="text-lg font-bold text-white">
+          Sector Allocation
+        </h2>
+
         <p className="text-sm text-slate-400">
           Investment distribution across portfolio sectors.
         </p>
@@ -50,9 +55,11 @@ export default function SectorPieChart({ sectors }: SectorPieChartProps) {
               outerRadius={110}
               innerRadius={55}
               paddingAngle={3}
-              label={({ name, percentage }) =>
-                `${name}: ${Number(percentage).toFixed(1)}%`
-              }
+              label={({ name, percent }) => {
+                const percentage = Number(percent ?? 0) * 100;
+
+                return `${String(name ?? "")}: ${percentage.toFixed(1)}%`;
+              }}
             >
               {data.map((entry, index) => (
                 <Cell
@@ -68,7 +75,7 @@ export default function SectorPieChart({ sectors }: SectorPieChartProps) {
                 backgroundColor: "#0f172a",
                 border: "1px solid #334155",
                 borderRadius: "12px",
-                color: "#ffffff"
+                color: "#ffffff",
               }}
             />
 

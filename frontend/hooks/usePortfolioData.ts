@@ -2,31 +2,33 @@ import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
 export const usePortfolioData = () => {
-  const [data, setData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [portfolio, setPortfolio] = useState<any>(null);
+  const [meta, setMeta] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [countdown, setCountdown] = useState(15);
 
   const fetchPortfolio = useCallback(async () => {
     try {
-      setLoading(true);
+      setIsLoading(true);
       setError(null);
       
-      // Use relative URL - works on same domain automatically
+      // Relative URL works for monorepo (same domain)
       const response = await axios.get('/api/portfolio', {
         timeout: 15000,
         headers: { Accept: 'application/json' },
       });
       
-      setData(response.data);
+      setPortfolio(response.data?.portfolio || null);
+      setMeta(response.data?.meta || null);
       setLastUpdated(new Date());
       setCountdown(15);
     } catch (err: any) {
       console.error('Portfolio fetch failed:', err.message);
-      setError(err.response?.data?.error || 'Failed to fetch portfolio data');
+      setError(err.response?.data?.error || 'Failed to fetch portfolio');
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   }, []);
 
@@ -43,12 +45,18 @@ export const usePortfolioData = () => {
     return () => clearInterval(timer);
   }, [lastUpdated]);
 
+  // Backward-compatible return shape matching app/page.tsx expectations
   return {
-    data,
-    loading,
+    portfolio,
+    meta,
+    isLoading,
     error,
     lastUpdated,
     countdown,
     refetch: fetchPortfolio,
+    
+    // Aliases for safety in case page uses either naming
+    data: portfolio,
+    loading: isLoading,
   };
 };

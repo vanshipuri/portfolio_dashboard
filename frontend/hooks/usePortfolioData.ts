@@ -1,77 +1,102 @@
-"use client";
+import { useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import axios from "axios";
-import type { PortfolioApiResponse } from "../types/portfolio.types";
+/*
+ * In monorepo deployment, frontend and API are on SAME DOMAIN.
+ * 
+ * Strategy:
+ * 1. If NEXT_PUBLIC_API_URL is set explicitly → use it
+ * 2. Otherwise → use current browser origin (relative /api/... works)
+ * 3. Fallback for SSR/build-time → empty string
+ */
+const getApiUrl = (): string => {
+  // Explicit env var takes priority (for split deployments)
+  if (process.env.NEXT_PUBLIC_API_URL && process.env.NEXT_PUBLIC_API_URL !== '') {
+    return process.env.NEXT_PUBLIC_API_URL;
+  }
+  
+  // Monorepo: same domain as frontend
+  if (typeof window !== 'undefined') {
+    return window.location.origin;
+  }
+  
+  // Build-time fallback
+  return '';
+};
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
-
-const REFRESH_INTERVAL_SECONDS = 15;
-
-export function usePortfolioData() {
-  const [data, setData] = useState<PortfolioApiResponse | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+export const usePortfolioData = () => {
+  const [data, setData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [countdown, setCountdown] = useState(REFRESH_INTERVAL_SECONDS);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const [countdown, setCountdown] = useState(15);
 
-  const isFetchingRef = useRef(false);
+  const apiUrl = getApiUrl();
 
   const fetchPortfolio = useCallback(async () => {
-    if (isFetchingRef.current) {
-      return;
-    }
-
     try {
-      isFetchingRef.current = true;
-
-      const response = await axios.get<PortfolioApiResponse>(
-        `${API_BASE_URL}/portfolio`
-      );
-
-      setData(response.data);
+      setLoading(true);
       setError(null);
-      setCountdown(REFRESH_INTERVAL_SECONDS);
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
-        setError(err.message);
-      } else {
-        setError("Something went wrong while fetching portfolio data.");
+      
+      console.log('[usePortfolioData] Fetching from:', `${apiUrl}/api/portfolio`);
+      
+      const response = await axios.get(`${apiUrl}/api/portfolio`, {
+        timeout: 15000,
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+      
+      console.log('[usePortfolioData] Response status:', response.status);
+      
+      setData(response.data);
+      setLastUpdated(new Date());
+      setCountdown(15);
+    } catch (err: any) {
+      console.error('[usePortfolioData] Error:', err.message);
+      console.error('[usePortfolioData] Config:', err.config?.url);
+      console.error('[usePortfolioData] Response:', err.response?.status, err.response?.data);
+      
+      let errorMessage = 'Failed to fetch portfolio data';
+      
+      if (err.code === 'ECONNABORTED') {
+        errorMessage = 'Request timed out - server may be starting up';
+      } else if (err.response?.status === 404) {
+        errorMessage = 'API endpoint not found - check deployment';
+      } else if (err.message.includes('Network')) {
+        errorMessage = 'Network error - check CORS and API URL';
+      } else if (err.response?.data?.error) {
+        errorMessage = err.response.data.error;
       }
+      
+      setError(errorMessage);
     } finally {
-      setIsLoading(false);
-      isFetchingRef.current = false;
+      setLoading(false);
     }
-  }, []);
+  }, [apiUrl]);
 
   useEffect(() => {
     fetchPortfolio();
+    const interval = setInterval(fetchPortfolio, 15000);
+    return () => clearInterval(interval);
   }, [fetchPortfolio]);
 
   useEffect(() => {
-    const refreshTimer = window.setInterval(() => {
-      fetchPortfolio();
-    }, REFRESH_INTERVAL_SECONDS * 1000);
-
-    const countdownTimer = window.setInterval(() => {
-      setCountdown((previous) =>
-        previous <= 1 ? REFRESH_INTERVAL_SECONDS : previous - 1
-      );
+    const timer = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) return 15;
+        return prev - 1;
+      });
     }, 1000);
-
-    return () => {
-      window.clearInterval(refreshTimer);
-      window.clearInterval(countdownTimer);
-    };
-  }, [fetchPortfolio]);
+    return () => clearInterval(timer);
+  }, [lastUpdated]);
 
   return {
     data,
-    portfolio: data?.portfolio ?? null,
-    meta: data?.meta ?? null,
-    isLoading,
+    loading,
     error,
+    lastUpdated,
     countdown,
-    refetch: fetchPortfolio
+    refetch: fetchPortfolio,
   };
-}
+};
